@@ -1,9 +1,11 @@
-app.$inject = [];
-
 export default function app () {
 	
 	return {
 		template: require('./appTemplate.html'),
-		controller: 'appController'
+		controller: 'appController',
+		controllerAs: 'vm',
+		bindToController: true
 	};
 }
+	
+app.$inject = [];

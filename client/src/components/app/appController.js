@@ -23,7 +23,14 @@ export default class appController {
 		RJSDAQ.connect(SERVER_ADDRESS, SERVER_PORT, newData => {
 			// This function will be called every time new data becomes available
 			$scope.$apply(() => {
-				this.securities = newData.securities;
+				this.securities = Object.keys(newData.securities)
+				.map(symbol => {
+
+					var security = newData.securities[symbol];
+					security.symbol = symbol;
+
+					return security;
+				});
 				console.log(this.securities);	
 			});
 		});
