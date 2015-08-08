@@ -1,10 +1,10 @@
 export default class securityController {
 	
-	constructor () {
+	constructor() {
 		
 	}
 	
-	priceString = () => {
+	getPriceString() {
 
 		return this.security.price == null ? '-' : this.security.price + '¢';
 	};

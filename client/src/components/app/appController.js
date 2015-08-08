@@ -2,7 +2,7 @@ import RJSDAQ from './../../RJSDAQ';
 
 export default class appController {
 	
-	constructor ($scope) {
+	constructor($scope) {
 		
 		this.count = 0;
 		
@@ -14,7 +14,7 @@ export default class appController {
 		this.connect($scope);
 	}
 	
-	connect ($scope) {
+	connect($scope) {
 
 		var SERVER_ADDRESS = 'localhost';
 		var SERVER_PORT = 5000;
