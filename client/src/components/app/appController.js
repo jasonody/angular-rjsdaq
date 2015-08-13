@@ -4,17 +4,10 @@ export default class appController {
 	
 	constructor($scope) {
 		
-		this.count = 0;
-		
-		$scope.$watch(
-			() => { return this.securities; }.bind(this),
-			(newValue, oldValue) => { console.log("Securities changed: " + ++this.count); }.bind(this)
-		);
-		
-		this.connect($scope);
+		this._connect($scope);
 	}
 	
-	connect($scope) {
+	_connect($scope) {
 
 		var SERVER_ADDRESS = 'localhost';
 		var SERVER_PORT = 5000;
@@ -31,7 +24,6 @@ export default class appController {
 
 					return security;
 				});
-				console.log(this.securities);	
 			});
 		});
 
