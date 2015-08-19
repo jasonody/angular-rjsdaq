@@ -19,7 +19,10 @@
 
 	<section class="analytics">
 		<h3>Change</h3>
-		<p class="change increasing">+10.0%</p>
+		<p class="change" 
+			 ng-class="{ 'increasing': vm.changePercentage > 0, 'decreasing': vm.changePercentage < 0 }">
+			{{vm.changeText}}
+		</p>
 
 		<h3>Trend</h3>
 		<p class="trend decreasing">-36.5%</p>
