@@ -5,22 +5,13 @@
 	<rjsdaq-price-age></rjsdaq-price-age>
 
 	<ul class="quotes">
-		<li style="height: 59.09%">42¢</li>
-		<li style="height: 63.18%">43¢</li>
-		<li style="height: 87.72%">49¢</li>
-		<li style="height: 91.82%">50¢</li>
-		<li style="height: 95.91%">51¢</li>
-		<li style="height: 100%">52¢</li>
-		<li style="height: 63.18%">43¢</li>
-		<li style="height: 18.18%">32¢</li>
-		<li style="height: 10%">30¢</li>
-		<li style="height: 22.27%">33¢</li>
+		<li ng-repeat="point in vm.priceHistoryGraph" ng-style="{'height': '{{point.height}}%'}">{{point.price}}¢</li>
 	</ul>
 
 	<section class="analytics">
 		<h3>Change</h3>
 		<p class="change" 
-			 ng-class="{ 'increasing': vm.changePercentage > 0, 'decreasing': vm.changePercentage < 0 }">
+			 ng-class="{'increasing': vm.changePercentage > 0, 'decreasing': vm.changePercentage < 0}">
 			{{vm.changeText}}
 		</p>
 
