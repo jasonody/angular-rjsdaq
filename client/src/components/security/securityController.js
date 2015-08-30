@@ -1,16 +1,20 @@
+const GRAPH_BAR_WIDTH = 18;
+const GRAPH_BAR_MARGIN = 5;
+
 export default class securityController {
 	
-	constructor($scope) {
+	constructor($scope, $element, $window) {
 		
 		this._priceHistory = [];
+		this._graphWidth = null;
 		this.changeText = '';
 		this.changePercentage = 0.0;
-		this.priceHistoryGraphGraph = [];
+		this.priceHistoryGraph = [];
 		
-		this._init($scope);
+		this._init($scope, $element, $window);
 	}
 	
-	_init($scope) {
+	_init($scope, $element, $window) {
 		
 		$scope.$watch(
 			(scope) => { return this.security.price },
@@ -21,6 +25,20 @@ export default class securityController {
 				this._updatePriceHistoryGraph();
 			}
 		);
+		
+		var graphElement = $element.find('ul')[0];
+		$scope.$watch(
+			(scope) => { return graphElement.clientWidth; },
+			(newValue, oldValue, scope) => { 
+				
+				this._graphWidth = graphElement.clientWidth;
+				this._updatePriceHistoryGraph(); 
+			}
+		);
+		
+		var apply = () => { $scope.$apply(); };
+		angular.element($window).on('resize', apply);
+		$scope.$on('$destroy', () => { angular.element($window).off('resize', apply); console.log('off!'); });
 	}
 	
 	_updateChange() {
@@ -39,6 +57,12 @@ export default class securityController {
 		
 		var minPrice, maxPrice;
 		var priceHistory = this._priceHistory;
+		
+		if (this._graphWidth) {
+			priceHistory = this._priceHistory.slice(-Math.floor(
+				(this._graphWidth - GRAPH_BAR_MARGIN) / (GRAPH_BAR_WIDTH + GRAPH_BAR_MARGIN)
+			));
+		}
 
 		priceHistory.forEach(function (price) {
 
@@ -74,4 +98,4 @@ export default class securityController {
 	
 }
 
-securityController.$inject = ['$scope'];
+securityController.$inject = ['$scope', '$element', '$window'];
