@@ -7,8 +7,10 @@ export default class securityController {
 		
 		this._priceHistory = [];
 		this._graphWidth = null;
-		this.changeText = '';
+		this.changeText = '–';
 		this.changePercentage = 0.0;
+		this.trendText = '–';
+		this.trendPercentage = 0.0;
 		this.priceHistoryGraph = [];
 		
 		this._init($scope, $element, $window);
@@ -44,21 +46,21 @@ export default class securityController {
 	
 	_updateChange() {
 		
-		var newPrice = this._priceHistory[this._priceHistory.length - 1];
-		var previousPrice = this._priceHistory[this._priceHistory.length - 2];
+		if (this._priceHistory.length > 1) {
+			var newPrice = this._priceHistory[this._priceHistory.length - 1];
+			var previousPrice = this._priceHistory[this._priceHistory.length - 2];
 
-		var priceChange = (((newPrice - previousPrice) / previousPrice) *100).toFixed(1);
-		var priceChangeSign = priceChange > 0 ? '+' : '';
+			var priceChange = (((newPrice - previousPrice) / previousPrice) *100).toFixed(1);
+			var priceChangeSign = priceChange > 0 ? '+' : '';
 
-		this.changeText = `${priceChangeSign}${priceChange}%`;
-		this.changePercentage = priceChange;
+			this.changeText = `${priceChangeSign}${priceChange}%`;
+			this.changePercentage = priceChange;
+		}
 	}
 	
 	_updateTrend() {
 
-		if (this._priceHistory.length < 10) {
-			this.trendText = '–';
-		} else {
+		if (this._priceHistory.length > 9) {
 			var priceHistory = this._priceHistory.slice(-10);
 
 			var sum = priceHistory.reduce(function (p, sum) {
