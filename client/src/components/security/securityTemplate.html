@@ -16,6 +16,9 @@
 		</p>
 
 		<h3>Trend</h3>
-		<p class="trend decreasing">-36.5%</p>
+		<p class="trend"
+			 ng-class="{'increasing': vm.trendPercentage > 0, 'decreasing': vm.trendPercentage < 0}">
+			{{vm.trendText}}
+		</p>
 	</section>
 </li>

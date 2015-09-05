@@ -22,6 +22,7 @@ export default class securityController {
 				
 				this._priceHistory.push(this.security.price);
 				this._updateChange();
+				this._updateTrend();
 				this._updatePriceHistoryGraph();
 			}
 		);
@@ -51,6 +52,27 @@ export default class securityController {
 
 		this.changeText = `${priceChangeSign}${priceChange}%`;
 		this.changePercentage = priceChange;
+	}
+	
+	_updateTrend() {
+
+		if (this._priceHistory.length < 10) {
+			this.trendText = '–';
+		} else {
+			var priceHistory = this._priceHistory.slice(-10);
+
+			var sum = priceHistory.reduce(function (p, sum) {
+
+				return p + sum;
+			});
+			var average = sum / 10;
+			var newPrice = this._priceHistory[this._priceHistory.length - 1];
+			var trendPercentage = (((newPrice - average) / average) * 100).toFixed(1);
+			var trendSign = trendPercentage > 0 ? '+' : '';
+
+			this.trendText = `${trendSign}${trendPercentage}%`;
+			this.trendPercentage = trendPercentage;
+		}
 	}
 	
 	_updatePriceHistoryGraph() {
