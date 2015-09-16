@@ -41,7 +41,7 @@ export default class securityController {
 		
 		var apply = () => { $scope.$apply(); };
 		angular.element($window).on('resize', apply);
-		$scope.$on('$destroy', () => { angular.element($window).off('resize', apply); console.log('off!'); });
+		$scope.$on('$destroy', () => { angular.element($window).off('resize', apply); });
 	}
 	
 	_updateChange() {

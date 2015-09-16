@@ -4,6 +4,11 @@ export default class appController {
 	
 	constructor($scope) {
 		
+		this._data = undefined;
+		this.securities = undefined;
+		this.sortKey = 'name';
+		this.sortOrder = 'desc';
+		
 		this._connect($scope);
 	}
 	
@@ -16,14 +21,8 @@ export default class appController {
 		RJSDAQ.connect(SERVER_ADDRESS, SERVER_PORT, newData => {
 			// This function will be called every time new data becomes available
 			$scope.$apply(() => {
-				this.securities = Object.keys(newData.securities)
-				.map(symbol => {
-
-					var security = newData.securities[symbol];
-					security.symbol = symbol;
-
-					return security;
-				});
+				this._data = newData;
+				this.sortSecurities();
 			});
 		});
 
@@ -42,6 +41,48 @@ export default class appController {
 *   RJSDAQ.goPublic('bik', 'Bikes', function(err) { console.log(err); });
 *
 */
+	}
+	
+	sortSecurities() {
+		
+		if (this._data) {
+			var securities = this._data.securities;
+			var securitySymbols = Object.keys(this._data.securities);
+			var sortedSecuritySymbols;
+			var sortKey = this.sortKey;
+			var sortOrder = this.sortOrder;
+
+			if (this.sortKey === 'name') {
+				sortedSecuritySymbols = securitySymbols.sort(function (a, b) {
+
+					if (this.sortOrder === 'asc') {
+						return securities[a].name > securities[b].name;
+					} else {
+						return securities[a].name < securities[b].name;
+					}
+				}.bind(this));
+			} else {
+				sortedSecuritySymbols = securitySymbols.sort(function (a, b) {
+
+					if (this.sortOrder === 'asc') {
+						return securities[a].price > securities[b].price;
+					} else {
+						return securities[a].price < securities[b].price;
+					}
+				}.bind(this));
+			}
+			
+			console.log(sortedSecuritySymbols);
+			
+			this.securities = sortedSecuritySymbols
+			.map(symbol => {
+
+				var security = this._data.securities[symbol];
+				security.symbol = symbol;
+
+				return security;
+			});
+		}
 	}
 }
 

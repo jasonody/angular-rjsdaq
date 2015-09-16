@@ -3,11 +3,11 @@
 
 		<h1>The RJSDAQ</h1>
 		<label for="sortKey">Sort by</label>
-		<select id="sortKey">
+		<select id="sortKey" ng-model="vm.sortKey" ng-change="vm.sortSecurities()">
 			<option value="name">Name</option>
 			<option value="price">Price</option>
 		</select>
-		<select id="sortOrder">
+		<select id="sortOrder" ng-model="vm.sortOrder" ng-change="vm.sortSecurities()">
 			<option value="asc">Ascending</option>
 			<option value="desc">Descending</option>
 		</select>
